@@ -45,13 +45,12 @@ class inWidget {
 		// 407 error depricated
 		500=>'{$answer}',
 	);
-	public function __construct() {
-		require_once 'config.php';
-		$this->config = $CONFIG;
+	public function __construct($input, $config) {
+		$this->config = $config;
 		$this->checkConfig();
 		$this->checkCacheRights();
 		$this->setLang();
-		$this->setOptions();
+		$this->setOptions($input);
 	}
 	public function apiQuery() {
 		try {
@@ -187,8 +186,6 @@ class inWidget {
 		fclose($cacheFile);
 	}
 	public function setLang($name = '') {
-		if(empty($name) AND $this->config['langAuto'] === true AND !empty($_SERVER['HTTP_ACCEPT_LANGUAGE']))
-			$name = substr($_SERVER['HTTP_ACCEPT_LANGUAGE'], 0, 2);
 		if(!empty($name)){
 			$name = strtolower($name);
 			if(file_exists($this->langPath.$name.'.php')) {
@@ -202,22 +199,22 @@ class inWidget {
 		}
 		$this->lang = $LANG;
 	}
-	public function setOptions() {
+	public function setOptions($input) {
 		$this->width -= 2;
-		if(isset($_GET['width']) AND (int)$_GET['width']>0)
-			$this->width = $_GET['width']-2;
-		if(isset($_GET['inline']) AND (int)$_GET['inline']>0)
-			$this->inline = $_GET['inline'];
-		if(isset($_GET['view']) AND (int)$_GET['view']>0)
-			$this->view = $_GET['view'];
-		if(isset($_GET['toolbar']) AND $_GET['toolbar'] == 'false' OR !empty($this->config['HASHTAG']))
+		if(isset($input['width']) AND (int)$input['width']>0)
+			$this->width = $input['width']-2;
+		if(isset($input['inline']) AND (int)$input['inline']>0)
+			$this->inline = $input['inline'];
+		if(isset($input['view']) AND (int)$input['view']>0)
+			$this->view = $input['view'];
+		if(isset($input['toolbar']) AND $input['toolbar'] == 'false' OR !empty($this->config['HASHTAG']))
 			$this->toolbar = false;
-		if(isset($_GET['preview']))
-			$this->preview = $_GET['preview'];
+		if(isset($input['preview']))
+			$this->preview = $input['preview'];
 		if($this->width>0)
 			$this->imgWidth = round(($this->width-(17+(9*$this->inline)))/$this->inline);
-		if(isset($_GET['lang']))
-			$this->setLang($_GET['lang']);
+		if(isset($input['lang']))
+			$this->setLang($input['lang']);
 	}
 	public function isBannedUserId($id) {
 		if(!empty($this->data->banned)) {

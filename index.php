@@ -25,8 +25,12 @@ if(!extension_loaded('curl')) 	die('inWidget required <b>cURL PHP extension</b>.
 require_once 'plugins/instagram-php-scraper/InstagramScraper.php';
 require_once 'plugins/unirest-php/Unirest.php';
 require_once 'inwidget.php';
+require_once 'config.php';
 
-$inWidget = new inWidget();
+$input = $_GET;
+if (empty($input['lang']) && $CONFIG['langAuto'] && !empty($_SERVER['HTTP_ACCEPT_LANGUAGE']))
+	$input['lang'] = substr($_SERVER['HTTP_ACCEPT_LANGUAGE'], 0, 2);
+$inWidget = new inWidget($input, $CONFIG);
 $inWidget->getData();
 
 require_once 'template.php';
