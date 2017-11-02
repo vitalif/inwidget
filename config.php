@@ -25,6 +25,9 @@ $CONFIG = array(
 	// How many pictures widget will get from Instagram?
 	'imgCount' => 30,
 
+	// Path to cache file(s)
+	'cacheFile' => 'cache/{$LOGIN}.txt',
+
 	// Cache expiration time (hours)
 	'cacheExpiration' => 6,
 

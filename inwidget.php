@@ -167,6 +167,9 @@ class inWidget {
 			$this->config['HASHTAG'] = trim($this->config['HASHTAG']);
 			$this->config['HASHTAG'] = str_replace('#','',$this->config['HASHTAG']);
 		}
+		if(!empty($this->config['cacheFile'])) {
+			$this->cacheFile = $this->config['cacheFile'];
+		}
 		$this->cacheFile = str_replace('{$LOGIN}', $this->config['LOGIN'], $this->cacheFile);
 		if(!empty($this->config['bannedLogins'])) {
 			$logins = explode(',', $this->config['bannedLogins']);
