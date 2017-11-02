@@ -213,7 +213,7 @@ class inWidget {
 			$this->preview = $input['preview'];
 		if($this->width>0)
 			$this->imgWidth = round(($this->width-(17+(9*$this->inline)))/$this->inline);
-		if(isset($input['lang']))
+		if(isset($input['lang']) && preg_match('#^[a-z]{2}$#is', $input['lang']))
 			$this->setLang($input['lang']);
 	}
 	public function isBannedUserId($id) {
